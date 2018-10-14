@@ -40,6 +40,7 @@ var usuario = mongoose.model('usuarios',usuarioEsquema);
 //4- delete eliminar
 
 var app = express();
+app.use(bodyparser.urlencoded({extend:false}))
 app.use(bodyparser.json());
 
 //rauting es el proceso de dirigir las solicitudes enviada
