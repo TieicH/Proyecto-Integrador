@@ -57,7 +57,7 @@ usuario.find(function(error,resultado){
 
 		}else{
 			// error 200  todo okey
-			res.status(200).json(resultado);
+			res.status(200).json({hola:true});
 		}
 });
 
