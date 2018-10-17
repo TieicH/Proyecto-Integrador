@@ -9,4 +9,4 @@ var FrutaSchema = new Schema({
   temporada: Boolean
 });
 
-module.exports = mongoose.model("Frutaa", FrutaSchema);
+module.exports = mongoose.model("Fruta", FrutaSchema);
