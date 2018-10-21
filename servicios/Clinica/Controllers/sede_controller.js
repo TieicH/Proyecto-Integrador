@@ -4,7 +4,7 @@ var Sede = require("../Models/sede_model");
 
 function getSedes(req, res) {
   Sede.find()
-    .populate({ path: "specs" })
+    .populate("specs")
     .sort("name")
     .exec((err, sedes) => {
       if (err) {
@@ -25,17 +25,19 @@ function getSedeById(req, res) {
     return;
   }
   var sedeId = req.params.id;
-  Sede.findById(sedeId, (err, sede) => {
-    if (err) {
-      res.status(500).send({ message: "Error en la petición" });
-    } else {
-      if (sede.length < 1) {
-        res.status(404).send({ message: "No se encontró la sede" });
+  Sede.findById(sedeId)
+    .populate("specs")
+    .exec((err, sede) => {
+      if (err) {
+        res.status(500).send({ message: "Error en la petición" });
       } else {
-        res.status(200).send({ Sede: sede });
+        if (sede.length < 1) {
+          res.status(404).send({ message: "No se encontró la sede" });
+        } else {
+          res.status(200).send({ Sede: sede });
+        }
       }
-    }
-  });
+    });
 }
 
 function getSedeByName(req, res) {
@@ -45,12 +47,13 @@ function getSedeByName(req, res) {
   }
   var sedeName = req.params.name;
   Sede.find({ name: { $regex: sedeName, $options: "i" } })
+    .populate("specs")
     .sort("name")
     .exec((err, sede) => {
       if (err) {
         res.status(500).send({ message: "Error en la petición" });
       } else {
-        if (spec.length < 1) {
+        if (sede.length < 1) {
           res.status(404).send({
             message: "No se encontró la especialidad con el nombre " + sedeName
           });
